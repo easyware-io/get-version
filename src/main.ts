@@ -18,6 +18,7 @@ export default async function run(): Promise<void> {
     if (pathToUse && !pathToUse.endsWith('/')) {
       pathToUse += '/';
     }
+    core.info(`Path: ${pathToUse}`);
 
     let version = 'unknown';
 
@@ -50,6 +51,7 @@ export default async function run(): Promise<void> {
 
     // Return "version" as output
     core.setOutput('version', version);
+    core.info(`Version: ${version}`);
   } catch (error) {
     core.setOutput('version', 'unknown');
     if (error instanceof Error) core.setFailed(`Failed get version: ${error.message}`);
