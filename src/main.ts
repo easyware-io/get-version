@@ -13,13 +13,17 @@ export default async function run(): Promise<void> {
     // Get the path to the project
     const path = core.getInput('path');
     // if path is not provided, set a default value
-    const pathToUse = (path || '.').replace(/\/$/, '');
+    let pathToUse = path || '';
+    // if pathToUse is not empty, add a trailing slash
+    if (pathToUse && !pathToUse.endsWith('/')) {
+      pathToUse += '/';
+    }
 
     let version = 'unknown';
 
     // If the app is 'quarkus', get version from pom.xml
     if (app.toLowerCase() === 'quarkus') {
-      const pathToPom = `${pathToUse}/pom.xml`;
+      const pathToPom = `${pathToUse}pom.xml`;
       if (!fs.existsSync(path)) {
         throw new Error(`File not found: ${pathToPom}`);
       }
@@ -35,7 +39,7 @@ export default async function run(): Promise<void> {
 
     // If the app is 'angular', get version from package.json
     if (app.toLowerCase() === 'angular') {
-      const pathToPackage = `${pathToUse}/package.json`;
+      const pathToPackage = `${pathToUse}package.json`;
       if (!fs.existsSync(path)) {
         throw new Error(`File not found: ${pathToPackage}`);
       }
