@@ -58,7 +58,7 @@ function run() {
             // If the app is 'quarkus', get version from pom.xml
             if (app.toLowerCase() === 'quarkus') {
                 const pathToPom = `${pathToUse}/pom.xml`;
-                if (!fs.existsSync(path)) {
+                if (!fs.existsSync(pathToPom)) {
                     const allFiles = fs.readdirSync(pathToUse);
                     core.error(`Files in ${pathToUse}: ${allFiles.join('\n')}`);
                     throw new Error(`File not found: ${pathToPom}`);
@@ -76,7 +76,7 @@ function run() {
             // If the app is 'angular', get version from package.json
             if (app.toLowerCase() === 'angular') {
                 const pathToPackage = `${pathToUse}/package.json`;
-                if (!fs.existsSync(path)) {
+                if (!fs.existsSync(pathToPackage)) {
                     const allFiles = fs.readdirSync(pathToUse);
                     core.error(`Files in ${pathToUse}: ${allFiles.join('\n')}`);
                     throw new Error(`File not found: ${pathToPackage}`);
