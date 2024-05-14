@@ -1,0 +1,16 @@
+name: 'Get version of an app.'
+description: 'Get version of an app.'
+author: 'easyware.io'
+inputs:
+  app:
+    required: true
+    description: 'File type (json or xml)'
+  path:
+    required: false
+    description: 'Path of file to read in case of not root directory'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+branding:
+  icon: shield
+  color: orange
