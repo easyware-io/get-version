@@ -1,13 +1,20 @@
-name: 'Get version of an app.'
+name: 'easyware-io/get-version'
 description: 'Get version of an app.'
 author: 'easyware.io'
 inputs:
   app:
     required: true
-    description: 'File type (json or xml)'
+    description: 'Valid values are `angular` and `quarkus`.'
   path:
     required: false
     description: 'Path of file to read in case of not root directory'
+  error-on-unknown:
+    required: false
+    description: 'If true, throws error if version is not found. Default is false.'
+    default: 'false'
+outputs:
+  version:
+    description: 'Version of the app'
 runs:
   using: 'node20'
   main: 'dist/index.js'
