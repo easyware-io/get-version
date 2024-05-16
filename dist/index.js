@@ -50,11 +50,12 @@ function run() {
             if (!['quarkus', 'angular'].includes(app)) {
                 throw new Error(`Invalid app: ${app}. At this point, only 'quarkus' and 'angular' are supported.`);
             }
+            const errorOnUnknown = core.getInput('error-on-unknown') === 'true';
             // Get the path to the project
             const path = core.getInput('path');
             // if path is not provided, set a default value, remove trailing slash
             const pathToUse = path ? `${path.replace(/\/$/, '')}/` : '.';
-            let version = 'unknown';
+            let version = null;
             // If the app is 'quarkus', get version from pom.xml
             if (app.toLowerCase() === 'quarkus') {
                 const pathToPom = `${pathToUse}/pom.xml`;
@@ -85,12 +86,16 @@ function run() {
                 const json = JSON.parse(pkg);
                 version = json.version;
             }
+            if (errorOnUnknown && version === null) {
+                core.setFailed(`Version not found in ${app} project.`);
+                return;
+            }
             // Return "version" as output
             core.setOutput('version', version);
             core.info(`Version: ${version}`);
         }
         catch (error) {
-            core.setOutput('version', 'unknown');
+            core.setOutput('version', null);
             if (error instanceof Error)
                 core.setFailed(`Failed get version: ${error.message}`);
         }
